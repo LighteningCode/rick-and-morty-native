@@ -1,6 +1,10 @@
 import { ApolloProvider, ApolloClient, InMemoryCache, useQuery, gql } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, Image, RefreshControl, SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const AppStack = createStackNavigator()
 
 
 const CHARACTERS = gql`
@@ -79,17 +83,36 @@ function CharacterList() {
   )
 }
 
+function List() {
+  return (
+    <SafeAreaView style={{ height: Dimensions.get('window').height, }}>
+      <View style={{ paddingHorizontal: 15 }}>
+        <CharacterList />
+      </View>
+    </SafeAreaView>
+  )
+}
+
+function Charater() {
+  return(
+    <View>
+      <Text>Hello from character page</Text>
+    </View>
+  )
+}
+
 export default function App() {
 
   StatusBar.setBarStyle("dark-content")
 
   return (
     <ApolloProvider client={client}>
-      <SafeAreaView style={{ height: Dimensions.get('window').height, }}>
-        <View style={{ paddingHorizontal: 15 }}>
-          <CharacterList />
-        </View>
-      </SafeAreaView>
+      <NavigationContainer>
+      <AppStack.Navigator initialRouteName="List">
+        <AppStack.Screen name="List" component={List} options={{headerTitle:'All Characters'}} />
+        <AppStack.Screen name="Character" component={Charater} />
+      </AppStack.Navigator>
+      </NavigationContainer>
     </ApolloProvider>
   );
 }
