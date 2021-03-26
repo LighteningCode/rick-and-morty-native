@@ -27,7 +27,7 @@ const client = new ApolloClient({
 });
 
 const Item = ({ data, navigation }) => (
-  <TouchableOpacity onPress={()=> navigation.navigate("Character")} activeOpacity={0.3} style={{ flexDirection: 'row', paddingBottom: 5, marginVertical: 5, borderBottomColor: "#e8e8e8", borderBottomWidth: 1 }}>
+  <TouchableOpacity onPress={() => navigation.navigate("Character", { data: data })} activeOpacity={0.3} style={{ flexDirection: 'row', paddingBottom: 5, marginVertical: 5, borderBottomColor: "#e8e8e8", borderBottomWidth: 1 }}>
 
     <View style={{ position: 'relative' }}>
       {
@@ -56,14 +56,14 @@ const Item = ({ data, navigation }) => (
       <Text style={{ color: `${(data.status.toLowerCase() === "dead") ? 'red' : 'black'}` }}>{data.status}</Text>
     </View>
 
-    <View style={{marginLeft:'auto', alignSelf:'center'}}>
-      <Text style={{color:"rgba(0,0,0,0.5)"}}>{data.gender}</Text>
+    <View style={{ marginLeft: 'auto', alignSelf: 'center' }}>
+      <Text style={{ color: "rgba(0,0,0,0.5)" }}>{data.gender}</Text>
     </View>
 
   </TouchableOpacity>
 );
 
-function CharacterList({navigation}) {
+function CharacterList({ navigation }) {
 
   const [list, setList] = useState([]);
   const [loader, setloader] = useState(true)
@@ -81,14 +81,14 @@ function CharacterList({navigation}) {
       <FlatList
         data={list}
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) =>  <Item data={item} navigation={navigation} />}
+        renderItem={({ item }) => <Item data={item} navigation={navigation} />}
         refreshControl={<RefreshControl refreshing={loader} />}
       />
     </View>
   )
 }
 
-function List({navigation}) {
+function List({ navigation }) {
   return (
     <SafeAreaView style={{ height: Dimensions.get('window').height, backgroundColor: 'white' }}>
       <View style={{ paddingHorizontal: 15 }}>
@@ -98,11 +98,100 @@ function List({navigation}) {
   )
 }
 
-function Charater() {
+function EpisodeItem({ episode, airdate, name }) {
   return (
-    <View>
-      <Text>Hello from character page</Text>
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{alignSelf:'center'}}>
+        <Text style={{fontSize: 15, fontWeight:'bold'}}>{episode}</Text>
+      </View>
+      <View style={{marginLeft: 10}}>
+        <Text style={{ fontWeight:'600'}}>{name}</Text>
+        <Text>{airdate}</Text>
+      </View>
     </View>
+  )
+}
+
+function Charater(props) {
+
+  const { route, navigation } = props
+
+  const [character, setCharacter] = useState({ data: null })
+
+  useEffect(() => {
+    // console.log("Use effect data")
+    // console.log(character.data.character.episode)
+  }, [character])
+
+  const CHARACTER_DATA = gql`
+  query{
+    character(id:${route.params.data.id}){
+      id
+      name
+      status
+      episode{
+        id
+        name
+        air_date
+        episode
+      }
+    }
+  }
+  `
+
+  const { data, loading } = useQuery(CHARACTER_DATA, {
+    onCompleted: _CharacterData => {
+      setCharacter({ data: _CharacterData })
+      // console.log("This is the character DATAAAAAAAAAAAAAAAAAA")
+      console.log(data.eposide)
+    },
+    onError: e => console.log(JSON.stringify(e, null, 2))
+  })
+
+  return (
+    <View style={{ paddingTop: 20 }}>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <Image
+          source={{
+            uri: route.params.data.image
+          }}
+          style={{
+            borderRadius: 50,
+            height: 100,
+            width: 100
+          }}
+        />
+      </View>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 25, marginVertical: 20 }}>
+        <View>
+          <Text style={styles.charaterOptionsTitle}>Gender</Text>
+          <Text style={styles.charaterOptionsText}>{route.params.data.gender}</Text>
+        </View>
+        <View>
+          <Text style={styles.charaterOptionsTitle}>Name</Text>
+          <Text style={styles.charaterOptionsText} >{route.params.data.name}</Text>
+        </View>
+        <View>
+          <Text style={styles.charaterOptionsTitle}>Status</Text>
+          <Text style={styles.charaterOptionsText}>{route.params.data.status}</Text>
+        </View>
+      </View>
+
+      <View style={{ backgroundColor: 'white', padding: 15 }}>
+
+        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Episodes</Text>
+        <View style={{ borderBottomWidth: 0.5, borderBottomColor: "rgba(0,0,0,0.3)", marginVertical: 10 }} />
+
+        <FlatList
+          data={character?.data?.character?.episode}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => <EpisodeItem episode={item.episode} airdate={item.air_date} name={item.name} />}
+        />
+      </View>
+
+    </View >
   )
 }
 
@@ -126,4 +215,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  charaterOptionsText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  charaterOptionsTitle: {
+    fontSize: 12,
+    textAlign: 'center'
+  }
 });
