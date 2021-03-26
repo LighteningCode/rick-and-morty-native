@@ -124,8 +124,8 @@ function Charater(props) {
   }, [character])
 
   const CHARACTER_DATA = gql`
-  query{
-    character(id:${route.params.data.id}){
+  query data ($id:ID!) {
+    character(id:$id){
       id
       name
       status
@@ -139,10 +139,10 @@ function Charater(props) {
   }
   `
 
-  const { data, loading } = useQuery(CHARACTER_DATA, {
+  const { data, loading } = useQuery(CHARACTER_DATA, { 
+    variables: {id: route.params.data.id},
     onCompleted: _CharacterData => {
       setCharacter({ data: _CharacterData })
-      // console.log("This is the character DATAAAAAAAAAAAAAAAAAA")
       console.log(data.eposide)
     },
     onError: e => console.log(JSON.stringify(e, null, 2))
