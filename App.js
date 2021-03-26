@@ -127,8 +127,6 @@ function Charater(props) {
   query data ($id:ID!) {
     character(id:$id){
       id
-      name
-      status
       episode{
         id
         name
@@ -139,8 +137,8 @@ function Charater(props) {
   }
   `
 
-  const { data, loading } = useQuery(CHARACTER_DATA, { 
-    variables: {id: route.params.data.id},
+  const { data, loading } = useQuery(CHARACTER_DATA, {
+    variables: { id: route.params.data.id },
     onCompleted: _CharacterData => {
       setCharacter({ data: _CharacterData })
       console.log(data.eposide)
@@ -184,13 +182,16 @@ function Charater(props) {
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Episodes</Text>
         <View style={{ borderBottomWidth: 0.5, borderBottomColor: "rgba(0,0,0,0.3)", marginVertical: 10 }} />
 
-        <View style={{paddingBottom: 470}}>
+        <View style={{ paddingBottom: 470 }}>
           <FlatList
             data={character?.data?.character?.episode}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => <EpisodeItem episode={item.episode} airdate={item.air_date} name={item.name} />}
+            refreshControl={ <RefreshControl refreshing={loading} />}
           />
         </View>
+
+
       </View>
 
     </View >
