@@ -32,7 +32,7 @@ const Item = ({ data, navigation }) => (
     <View style={{ position: 'relative' }}>
       {
         (data.status.toLowerCase() === "dead") ?
-          <View style={{ height: 50, width: 50, backgroundColor: 'rgba(255,255,255,0.5)', position: 'absolute', top: 0, left: 0, zIndex: '900' }} />
+          <View style={{ height: 50, width: 50, backgroundColor: 'rgba(255,255,255,0.5)', position: 'absolute', top: 0, left: 0, zIndex: 900 }} />
           :
           null
       }
