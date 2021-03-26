@@ -100,12 +100,12 @@ function List({ navigation }) {
 
 function EpisodeItem({ episode, airdate, name }) {
   return (
-    <View style={{ flexDirection: 'row' }}>
-      <View style={{alignSelf:'center'}}>
-        <Text style={{fontSize: 15, fontWeight:'bold'}}>{episode}</Text>
+    <View style={{ flexDirection: 'row', paddingVertical: 10, borderBottomWidth: 0.5, borderBottomColor: "rgba(0,0,0,0.1)" }}>
+      <View style={{ alignSelf: 'center' }}>
+        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{episode}</Text>
       </View>
-      <View style={{marginLeft: 10}}>
-        <Text style={{ fontWeight:'600'}}>{name}</Text>
+      <View style={{ marginLeft: 10 }}>
+        <Text style={{ fontWeight: '600' }}>{name}</Text>
         <Text>{airdate}</Text>
       </View>
     </View>
@@ -184,11 +184,13 @@ function Charater(props) {
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Episodes</Text>
         <View style={{ borderBottomWidth: 0.5, borderBottomColor: "rgba(0,0,0,0.3)", marginVertical: 10 }} />
 
-        <FlatList
-          data={character?.data?.character?.episode}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => <EpisodeItem episode={item.episode} airdate={item.air_date} name={item.name} />}
-        />
+        <View style={{paddingBottom: 470}}>
+          <FlatList
+            data={character?.data?.character?.episode}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item, index }) => <EpisodeItem episode={item.episode} airdate={item.air_date} name={item.name} />}
+          />
+        </View>
       </View>
 
     </View >
