@@ -67,12 +67,19 @@ function CharacterList({ navigation }) {
 
   const [list, setList] = useState([]);
   const [loader, setloader] = useState(true)
-  const { loading, error, data } = useQuery(CHARACTERS, {
+  const { loading, error, data, refetch } = useQuery(CHARACTERS, {
     onCompleted: d => {
       setList(d?.characters.results);
       setloader(false)
     }, onError: e => console.log(JSON.stringify(e, null, 2))
   })
+
+  useEffect(()=>{
+    const navSubscription = navigation.addListener("focus",()=>{
+      refetch();
+    })
+    return navSubscription;
+  },[navigation]) 
 
   // console.log(data?.characters?.results)
 
@@ -137,7 +144,7 @@ function Charater(props) {
   }
   `
 
-  const { data, loading } = useQuery(CHARACTER_DATA, {
+  const { data, loading, refetch } = useQuery(CHARACTER_DATA, {
     variables: { id: route.params.data.id },
     onCompleted: _CharacterData => {
       setCharacter({ data: _CharacterData })
@@ -145,6 +152,13 @@ function Charater(props) {
     },
     onError: e => console.log(JSON.stringify(e, null, 2))
   })
+
+  useEffect(()=>{
+    const navSubscription = navigation.addListener("focus",()=>{
+      refetch();
+    })
+    return navSubscription;
+  },[navigation]) 
 
   return (
     <View style={{ paddingTop: 20 }}>
