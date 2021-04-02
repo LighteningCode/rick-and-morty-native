@@ -81,8 +81,6 @@ function CharacterList({ navigation }) {
     return navSubscription;
   },[navigation]) 
 
-  // console.log(data?.characters?.results)
-
   return (
     <View style={{ paddingBottom: 60 }}>
       <FlatList
