@@ -1,4 +1,16 @@
-### Rick and Morty Character app
+
+<div align="center">
+ 
+## Rick and Morty Character app
+ 
+</div>
+
+<div align="center">
+ 
+   ![Rick and Morty](https://user-images.githubusercontent.com/30559298/159112943-bc14e5bf-dbac-40de-b9bc-139a150f245d.png)
+ 
+ </div>
+ 
 
 So I did a quick project with the rick and morty API here using apollo client to consume a graphql API with [this](https://rickandmortyapi.com/graphql)
 
@@ -27,9 +39,14 @@ This was the most eye opening frustration of the day.
 
 ### 🎉🎉 Clone and take a look
 ###### Meanwhile here is the what it looks like
-
+<br />
+<br />
 IPhone
+<br />
 ![Iphone SE](./assets/iphonex.jpeg)
 
+
+
 Android
+<br />
 ![Anrdoid](./assets/android.jpeg)
