@@ -37,16 +37,4 @@ This was the most eye opening frustration of the day.
 4. Attempted to use the [FluidNavigation](https://github.com/fram-x/FluidTransitions) to transition between screens and it didnt work, i tried thier examples, they also didnt work, looks like a dependency was removed from somewhere inside
 
 
-### 🎉🎉 Clone and take a look
-###### Meanwhile here is the what it looks like
-<br />
-<br />
-IPhone
-<br />
-![Iphone SE](./assets/iphonex.jpeg)
-
-
-
-Android
-<br />
-![Anrdoid](./assets/android.jpeg)
+### 🎉🎉 Clone repo and run on expo to take a look
